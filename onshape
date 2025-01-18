@@ -1,0 +1,38 @@
+#@title Import and Setup Onshape Client
+
+!pip install onshape-client
+from onshape_client.client import Client
+from onshape_client.onshape_url import OnshapeElement
+import json
+
+#@markdown Chage the base if using an enterprise (i.e. "https://frc190.onshape.com")
+base = 'https://frc190.onshape.com' #@param {type:"string"}
+
+#@markdown Would you like to import your API keys from a file, or copy and paste them directly?
+keyImportOption = "Upload Keys from File" #@param ["Upload Keys from File", "Copy/Paste Keys"]
+
+from IPython.display import clear_output 
+clear_output()
+print("Onshape Client successfully imported!")
+
+if keyImportOption == "Upload Keys from File":
+  from google.colab import files
+  uploaded = files.upload()
+  for fn in uploaded.keys():
+    execfile(fn)
+
+  client = Client(configuration={"base_url": base,
+                                "access_key": access,
+                                "secret_key": secret})
+  clear_output()
+  print('Onshape client configured - ready to go!')
+else:
+  access = input("Paste your Onshape Access Key: ")
+  secret = input("Paste your Onshape Secret Key: ")
+  client = Client(configuration={"base_url": base,
+                                "access_key": access,
+                                "secret_key": secret})
+  clear_output()
+  print('Onshape client configured - ready to go!')
+
+     
